@@ -4,9 +4,7 @@ var multer = require("multer");
 const imageUrl = require("./ImageUrl");
 const mongoose = require("mongoose");
 app.use("/uploads", express.static("uploads"));
-
 const db = "mongodb://localhost:27017/image";
-
 const baseUrl = `http://localhost:5678/uploads/`;
 
 mongoose
@@ -34,11 +32,11 @@ app.post("/image", (req, res) => {
     uploadImg(req, res, async (err) => {
       const image = new imageUrl({
         image: `${baseUrl}${req.file.filename}`,
-        name: req.body.name,
+        // name: req.body.name,
       });
       await image.save();
       return res.json({
-        image: `${baseUrl}${req.file.filename}`,
+        image: image,
       });
     });
   } catch (error) {
