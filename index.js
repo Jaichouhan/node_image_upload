@@ -7,6 +7,8 @@ app.use("/uploads", express.static("uploads"));
 
 const db = "mongodb://localhost:27017/image";
 
+const baseUrl = `http://localhost:5678/uploads/`;
+
 mongoose
   .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("connect"));
@@ -31,12 +33,12 @@ app.post("/image", (req, res) => {
   try {
     uploadImg(req, res, async (err) => {
       const image = new imageUrl({
-        image: `http://localhost:5678/uploads/${req.file.filename}`,
+        image: `${baseUrl}${req.file.filename}`,
         name: req.body.name,
       });
       await image.save();
       return res.json({
-        image: `http://localhost:5678/uploads/${req.file.filename}`,
+        image: `${baseUrl}${req.file.filename}`,
       });
     });
   } catch (error) {
